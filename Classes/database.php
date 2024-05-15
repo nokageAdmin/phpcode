@@ -60,4 +60,41 @@ class database{
             return false;
     }
 }
+
+    function viewdata($id){
+    try{
+        $con = $this->opencon();
+        $query = $con->prepare("SELECT users.UserID, users.firstname, users.lastname, users.birthday, users.sex, users.Username, users.Pass_word, user_address.user_add_street, user_address.user_add_barangay, user_address.user_add_city, user_address.user_add_province FROM users JOIN user_address ON users.UserID = user_address.UserID; WHERE users.UserID = ? ");
+        $query->execute([$id]);
+        return $query->fetch();
+
+    } catch (PDOException $e){
+    return [] ;
+    }   
+}
+    function updateUser($user_id, $firstname, $lastname, $birthday, $sex, $username, $password) {
+        try{
+            $con = $this->opencon();
+            $con->beginTransaction();
+            $query = $con->prepare("UPDATE users SET firstname=?, lastname=?, birthday=?, sex=?, Username=?, Pass_word=? WHERE UserID=?");
+            $query->execute([$firstname, $lastname, $birthday, $sex, $username, $password, $user_id,]);
+            $con->commit();
+        } catch (PDOException $e){
+            $con->rollBack();
+            return false;
+    }
+}
+
+    function updateUserAddress($user_id, $street, $barangay, $city, $province, ) {
+        try{
+            $con = $this->opencon();
+            $con->beginTransaction();
+            $query = $con->prepare("UPDATE user_address SET user_add_street=?, user_add_barangay=?, user_add_city=?, user_add_province=?, WHERE UserID=?");
+            $query->execute([$user_id, $street, $barangay, $city, $province, $user_id]);
+            $con->commit();
+        } catch (PDOException $e){
+            $con->rollBack();
+            return false;
+        }
+    }
 }
