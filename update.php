@@ -94,8 +94,8 @@ if (empty($_POST["id"])) {
             <label for="sex">Sex:</label>
             <select class="form-control" name="sex">
               <option selected>Select Sex</option>
-              <option value="Male" <?php if($data['user_sex'] === 'Male') echo 'selected'; ?>>Male</option>
-              <option value="Female" <?php if($data['user_sex'] === 'Female') echo 'selected'; ?>>Female</option>
+              <option value="Male" <?php if($data['sex'] === 'Male') echo 'selected'; ?>>Male</option>
+              <option value="Female" <?php if($data['sex'] === 'Female') echo 'selected'; ?>>Female</option>
             </select>
           </div>
         </div>
