@@ -3,11 +3,32 @@ class database{
     function opencon() {
         return new PDO('mysql:host=localhost;dbname=loginmethod','root','');
     }
-    function check($username, $password){
-        $con = $this->opencon(); 
-        $query = "Select * from users WHERE Username='".$username."'&& Pass_word='".$password."'";
-        return  $con->query($query)->fetch();
+    // function check($username, $password){
+    //     $con = $this->opencon(); 
+    //     $query = "Select * from users WHERE Username='".$username."'&& Pass_word='".$password."'";
+    //     return  $con->query($query)->fetch();
+    
+
+    function check($username, $password) {
+        // Open database connection
+        $con = $this->opencon();
+    
+        // Prepare the SQL query
+        $stmt = $con->prepare("SELECT * FROM users WHERE Username = ?");
+        $stmt->execute([$username]);
+    
+        // Fetch the user data as an associative array
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        // If a user is found, verify the password
+        if ($user && password_verify($password, $user['Pass_word'])) {
+            return $user;
+        }
+    
+        // If no user is found or password is incorrect, return false
+        return false;
     }
+
     function SignUp($username, $password, $firstname, $lastname, $birthday, $sex){
         $con = $this->opencon();
 
@@ -104,11 +125,11 @@ function updateUserAddress($user_id, $street, $barangay, $city, $province) {
      
 }
 
-function signupUser($firstname, $lastname, $birthday, $sex, $email, $username, $password, $profilePicture)
-{
+function signupUser($firstname, $lastname, $birthday, $sex, $email, $username, $password, $profilePicture){
     $con = $this->opencon();
     // Save user data along with profile picture path to the database
     $con->prepare("INSERT INTO users (firstname, lastname, birthday, sex, user_email, Username, Pass_word, user_profile_picture) VALUES (?,?,?,?,?,?,?,?)")->execute([$firstname, $lastname, $birthday, $sex, $email, $username, $password, $profilePicture]);
     return $con->lastInsertId();
     }
+
 }
