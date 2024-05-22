@@ -134,6 +134,7 @@ if (isset($_POST['multisave'])) {
       <div class="card mt-4">
         <div class="card-header bg-info text-white">Account Information</div>
         <div class="card-body">
+            
         <div class="form-group">
             <label for="username">Username:</label>
             <input type="text" class="form-control" name="username" id="username" placeholder="Enter username" required>
@@ -141,14 +142,16 @@ if (isset($_POST['multisave'])) {
             <div class="invalid-feedback">Please enter a valid username.</div>
             <div id="usernameFeedback" class="invalid-feedback"></div> <!-- New feedback div -->
         </div>
+
           <div class="form-group">
             <label for="email">Email:</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
             <div class="valid-feedback">Looks good!</div>
             <div class="invalid-feedback">Please enter a valid email.</div>
+            <div id="emailFeedback" class="invalid-feedback"></div> <!-- New feedback div -->
           </div>
-          <div id="emailFeedback" class="invalid-feedback"></div> <!-- New feedback div -->
-        </div>
+          
+       
           <div class="form-group">
             <label for="password">Password:</label>
             <input type="password" class="form-control" name="password" placeholder="Enter password" required>
