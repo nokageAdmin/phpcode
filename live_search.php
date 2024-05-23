@@ -13,7 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Check if the connection is successful
             if ($connection) {
                 // SQL query with JOIN
-                $query = $connection->prepare("SELECT users.UserID, users.firstname, users.lastname, users.birthday, users.sex, users.Username, users.user_profile_picture, CONCAT(user_add_city,', ', user_add_province) AS address FROM users INNER JOIN user_address ON users.UserID = user_address.UserID WHERE users.Username LIKE ? OR users.UserID LIKE ? OR users.firstname LIKE ? OR CONCAT(user_add_city,', ', user_add_province) LIKE ? ");
+                $query = $connection->prepare("SELECT users.UserID, users.firstname, users.lastname, users.birthday, users.sex, users.Username, users.user_profile_picture,
+                 CONCAT(user_add_city,', ', user_add_province)
+                 AS address FROM users INNER JOIN user_address ON users.UserID = user_address.UserID WHERE users.Username
+                  LIKE ? OR users.UserID LIKE ? OR users.firstname LIKE ? OR CONCAT(user_add_city,', ', user_add_province) LIKE ? ");
                 $query->execute(["%$searchterm%","%$searchterm%","%$searchterm%", "a%"]);
                 $users = $query->fetchAll(PDO::FETCH_ASSOC);
 
