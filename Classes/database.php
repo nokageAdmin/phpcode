@@ -85,7 +85,7 @@ class database{
     function viewdata($id){
     try{
         $con = $this->opencon();
-        $query = $con->prepare("SELECT users.UserID, users.firstname, users.lastname, users.birthday, users.sex, users.Username, users.Pass_word, user_address.user_add_street, user_address.user_add_barangay, user_address.user_add_city, user_address.user_add_province FROM users JOIN user_address ON users.UserID = user_address.UserID WHERE users.UserID=?");
+        $query = $con->prepare("SELECT users.UserID, users.firstname, users.lastname, users.birthday, users.sex, users.Username, users.Pass_word, user_address.user_add_street, user_address.user_add_barangay, user_address.user_add_city, user_address.user_add_province, users.user_profile_picture FROM users JOIN user_address ON users.UserID = user_address.UserID WHERE users.UserID=?");
         $query->execute([$id]);
         return $query->fetch();
 
@@ -130,6 +130,26 @@ function signupUser($firstname, $lastname, $birthday, $sex, $email, $username, $
     // Save user data along with profile picture path to the database
     $con->prepare("INSERT INTO users (firstname, lastname, birthday, sex, user_email, Username, Pass_word, user_profile_picture) VALUES (?,?,?,?,?,?,?,?)")->execute([$firstname, $lastname, $birthday, $sex, $email, $username, $password, $profilePicture]);
     return $con->lastInsertId();
+    }
+
+    function validateCurrentPassword($userId, $currentPassword) {
+        // Open database connection
+        $con = $this->opencon();
+    
+        // Prepare the SQL query
+        $query = $con->prepare("SELECT Pass_word FROM users WHERE UserID = ?");
+        $query->execute([$userId]);
+    
+        // Fetch the user data as an associative array
+        $user = $query->fetch(PDO::FETCH_ASSOC);
+    
+        // If a user is found, verify the password
+        if ($user && password_verify($currentPassword, $user['Pass_word'])) {
+            return true;
+        }
+    
+        // If no user is found or password is incorrect, return false
+        return false;
     }
 
 }

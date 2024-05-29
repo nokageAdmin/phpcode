@@ -18,7 +18,7 @@ if (isset($_POST['multisave'])) {
     
     if ($password == $confirm) {
         // Passwords match, proceed with signup
-        $user_id = $con->signupUser($username, $password, $firstname, $lastname, $birthday, $sex); // Insert into users table and get user_id
+        $user_id = $con->signupUser($firstname, $lastname, $birthday, $sex, $email, $username, $password, $profilePicture); // Insert into users table and get user_id
         if ($user_id) {
             // Signup successful, insert address into users_address table
             if ($con->insertAddress($user_id, $street, $barangay, $city, $province, )) {
