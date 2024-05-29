@@ -181,7 +181,7 @@ if (isset($_POST['updateaddress'])) {
     </button>
   </div>
   <div class="modal-body">
-    <p>Current Address: <address><?php echo $data['street'].', ',$data['barangay'].', '. $data['city'].', '. $data['province'];?></address></p>
+    <p>Current Address: <address><?php echo $data['user_add_street'].', ',$data['user_add_barangay'].', '. $data['user_add_city'].', '. $data['user_add_province'];?></address></p>
     <div class="form-group">
       <label class="form-label">Region<span class="text-danger"> *</span></label>
       <select name="user_region" class="form-control form-control-md" id="region" required></select>
